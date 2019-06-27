@@ -32,7 +32,7 @@ def getSEA(latitude, longitude, utc_offset):
 
     lat_radians = math.radians(latitude)
     d_radians = math.radians(declination)
-    SHA_radians = math.radians(SHA)
+    SHA_radians = math.radians(SHA_corrected)
 
     SZA_radians = math.acos(
         math.sin(lat_radians) * math.sin(d_radians) + math.cos(lat_radians) * math.cos(d_radians) * math.cos(
@@ -74,7 +74,7 @@ def getAZ(latitude, longitude, utc_offset):
 
     lat_radians = math.radians(latitude)
     d_radians = math.radians(declination)
-    SHA_radians = math.radians(SHA)
+    SHA_radians = math.radians(SHA_corrected)
 
     SZA_radians = math.acos(
         math.sin(lat_radians) * math.sin(d_radians) + math.cos(lat_radians) * math.cos(d_radians) * math.cos(
@@ -82,10 +82,9 @@ def getAZ(latitude, longitude, utc_offset):
 
     SZA = math.degrees(SZA_radians)
 
-    cos_AZ = (math.sin(d_radians) - math.sin(lat_radians) * math.cos(SZA_radians)) / (
-    math.cos(lat_radians) * math.sin(SZA_radians))
-
-    AZ_rad = math.acos(cos_AZ)
+    sin_Az = (-1) * math.sin(SHA_radians) * math.cos(d_radians) / math.sin(SZA_radians)
+    
+    AZ_rad = math.asin(sin_AZ)
     AZ = math.degrees(AZ_rad)
 
     # You may need to use this check github description
